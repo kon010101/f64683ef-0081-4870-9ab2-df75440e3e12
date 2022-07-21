@@ -2,28 +2,13 @@ import { useEffect, useContext } from "react";
 import { Typography } from "@mui/material";
 import { Container } from "@mui/system";
 
-import { formatDate } from "../util";
-import CardGrid from "../components/CardGrid/CardGrid";
-import { EventContext } from "../context/EventContext";
-import { eventActionTypes } from "../context/actionTypes";
+import { StickyTitle } from "./styledComponents";
+import { formatTitleDate } from "../../util";
+import CardGrid from "../../components/CardGrid/CardGrid";
+import { EventContext } from "../../context/EventContext";
+import { eventActionTypes } from "../../context/actionTypes";
 
 const { FETCH_ERROR, FETCH_SUCCESS, SET_FILTERED } = eventActionTypes;
-
-/**
- * Sets styles for sticky titles
- */
-const titleStyles = (theme) => ({
-  position: "sticky",
-  top: "64px",
-  margin: "1rem 0",
-  padding: "0.5rem 0",
-  background: "rgba(255, 255, 255, 0.8)",
-  zIndex: 1060,
-
-  [theme.breakpoints.down("sm")]: {
-    top: "56px",
-  },
-});
 
 const LandingPage = () => {
   const eventContext = useContext(EventContext);
@@ -51,9 +36,9 @@ const LandingPage = () => {
     return Array.from(eventMap).map(([key, events]) => {
       return (
         <div key={key} className="GridContainer">
-          <Typography variant="h4" color="primary" sx={titleStyles}>
-            {formatDate(key)}
-          </Typography>
+          <StickyTitle variant="h4" color="primary">
+            {formatTitleDate(key)}
+          </StickyTitle>
           <CardGrid events={events} />
         </div>
       );
@@ -82,9 +67,7 @@ const LandingPage = () => {
         (event) => !eventState.cartEvents.includes(event)
       ),
     });
-  }, []);
-
-  console.log(eventState);
+  }, [dispatch, eventState.allEvents, eventState.cartEvents]);
 
   return (
     <div className="LandingPage">

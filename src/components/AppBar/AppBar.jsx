@@ -51,6 +51,7 @@ const PrimarySearchAppBar = () => {
             </SearchIconWrapper>
             <StyledInputBase
               onChange={handleSearch}
+              onKeyDown={(e) => e.key === "Enter" && handleSearch(e)}
               placeholder="Search…"
               inputProps={{ "aria-label": "search" }}
             />

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Box } from "@mui/system";
 import ImageModal from "../ImageModal/ImageModal";
+import "react-lazy-load-image-component/src/effects/blur.css";
 
 const Image = ({ url, alt }) => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -13,10 +14,15 @@ const Image = ({ url, alt }) => {
   return (
     <>
       <Box
-        sx={{ height: "350px", overflow: "hidden", cursor: "pointer" }}
+        sx={{
+          height: "350px",
+          overflow: "hidden",
+          cursor: "pointer",
+          marginBottom: "1rem",
+        }}
         onClick={openModal}
       >
-        <LazyLoadImage effect="opacity" src={url} alt={alt} height="350" />;
+        <LazyLoadImage effect="blur" src={url} alt={alt} height="350" />;
       </Box>
       <ImageModal
         modalOpen={modalOpen}

@@ -4,7 +4,11 @@ import { Link, Typography } from "@mui/material";
 
 const Location = ({ name, url }) => {
   return (
-    <Link sx={{ display: "flex" }} href={url} target="_blank">
+    <Link
+      sx={{ display: "flex", marginBottom: "0.5rem" }}
+      href={url}
+      target="_blank"
+    >
       <LocationOnIcon color="primary" />
       <Typography>{name}</Typography>
     </Link>

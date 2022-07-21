@@ -1,8 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { CssBaseline } from "@mui/material";
 
-import LandingPage from "./pages/LandingPage";
-import CartPage from "./pages/CartPage";
+import LandingPage from "./pages/LandingPage/LandingPage";
+import CartPage from "./pages/CartPage/CartPage";
 import { EventContextProvider } from "./context/EventContext";
 import PrimarySearchAppBar from "./components/AppBar/AppBar";
 

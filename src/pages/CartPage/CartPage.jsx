@@ -2,9 +2,9 @@ import { useContext } from "react";
 import { Button, Typography } from "@mui/material";
 import { Box, Container } from "@mui/system";
 
-import CardGrid from "../components/CardGrid/CardGrid";
-import { EventContext } from "../context/EventContext";
-import { eventActionTypes } from "../context/actionTypes";
+import CardGrid from "../../components/CardGrid/CardGrid";
+import { EventContext } from "../../context/EventContext";
+import { eventActionTypes } from "../../context/actionTypes";
 
 const { CLEAR_CART } = eventActionTypes;
 
