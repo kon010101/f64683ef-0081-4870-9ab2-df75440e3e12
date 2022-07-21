@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import Location from "../Location/Location";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
@@ -31,7 +31,7 @@ const Card = ({ event }) => {
   };
 
   return (
-    <div className="Card">
+    <Box sx={{ padding: "0 0.5rem" }}>
       <IconWithText title={title} />
       <Image url={flyerFront} />
       <Location url={venue.direction} name={venue.name} />
@@ -50,7 +50,7 @@ const Card = ({ event }) => {
       >
         {eventInCart() ? <RemoveIcon /> : <AddIcon />}
       </Fab>
-    </div>
+    </Box>
   );
 };
 
