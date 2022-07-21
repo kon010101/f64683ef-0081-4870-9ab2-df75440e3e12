@@ -15,7 +15,7 @@ import Image from "../Image/Image";
 const { ADD_TO_CART, REMOVE_FROM_CART } = eventActionTypes;
 
 const Card = ({ event }) => {
-  const { title, flyerFront, venue, date, startTime, endTime } = event;
+  const { title, flyerFront, venue, startTime, endTime } = event;
   const { eventState, dispatch } = useContext(EventContext);
 
   const eventInCart = () => {
@@ -36,10 +36,10 @@ const Card = ({ event }) => {
       <Image url={flyerFront} />
       <Location url={venue.direction} name={venue.name} />
       <Typography align="left">
-        Starts: {formatDate(date)}, {formatTime(startTime)}
+        Starts: {formatDate(startTime)}, {formatTime(startTime)}
       </Typography>
       <Typography align="left">
-        Ends: {formatDate(date)}, {formatTime(endTime)}
+        Ends: {formatDate(endTime)}, {formatTime(endTime)}
       </Typography>
       <Fab
         sx={fabStyle}
