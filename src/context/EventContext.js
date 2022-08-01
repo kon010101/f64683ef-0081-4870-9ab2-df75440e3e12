@@ -18,6 +18,19 @@ const initialState = {
   error: "",
 };
 
+const getCorrectDirectionEvents = (events) => {
+  const wrongPart = "Colour+Factory+london";
+
+  return events.map((event) => {
+    const correctedUrl = event.venue.direction.replace(
+      wrongPart,
+      `${event.venue.name}${event.city}`
+    );
+
+    return { ...event, venue: { ...event.venue, direction: correctedUrl } };
+  });
+};
+
 const eventReducer = (state, action) => {
   const { filteredEvents, cartEvents } = state;
 
@@ -25,7 +38,7 @@ const eventReducer = (state, action) => {
     case FETCH_SUCCESS:
       return {
         ...state,
-        allEvents: action.payload,
+        allEvents: getCorrectDirectionEvents(action.payload),
         loading: false,
       };
     case FETCH_ERROR:
