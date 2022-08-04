@@ -12,9 +12,9 @@ const CardGrid = ({ events }) => {
         {events &&
           events.map((event) => {
             return (
-              <Grid item xs={12} sm={6} md={4}>
+              <Grid key={event._id} item xs={12} sm={6} md={4}>
                 <Item>
-                  <Card key={event._id} event={event} />;
+                  <Card event={event} />;
                 </Item>
               </Grid>
             );
