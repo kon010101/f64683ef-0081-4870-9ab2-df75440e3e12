@@ -25,12 +25,7 @@ const LandingPage = () => {
     const eventMap = new Map();
 
     sortedEvents.forEach((event) => {
-      eventMap.set(
-        event.date,
-        eventMap.has(event.date)
-          ? [...eventMap.get(event.date), event]
-          : [event]
-      );
+      eventMap.set(event.date, eventMap.has(event.date) ? [...eventMap.get(event.date), event] : [event]);
     });
 
     return Array.from(eventMap).map(([key, events]) => {
@@ -49,23 +44,26 @@ const LandingPage = () => {
     // Just fetch on the first launch
     if (eventState.allEvents.length === 0) {
       fetch("https://tlv-events-app.herokuapp.com/events/uk/london")
-        .then((res) => res.json())
+        .then((res) => {
+          if (!res.ok) {
+            dispatch({ type: FETCH_ERROR, payload: "Error: Not able to fetch data from API" });
+            throw new Error("Something went wrong");
+          }
+          return res.json();
+        })
         .then((events) => {
           dispatch({ type: FETCH_SUCCESS, payload: events });
           dispatch({ type: SET_FILTERED, payload: events });
         })
         .catch((err) => {
           console.error(err);
-          dispatch({ type: FETCH_ERROR, payload: err });
         });
     }
 
     // Exclude elements, that are already in cart
     dispatch({
       type: SET_FILTERED,
-      payload: eventState.allEvents.filter(
-        (event) => !eventState.cartEvents.includes(event)
-      ),
+      payload: eventState.allEvents.filter((event) => !eventState.cartEvents.includes(event)),
     });
   }, [dispatch, eventState.allEvents, eventState.cartEvents]);
 
@@ -81,11 +79,7 @@ const LandingPage = () => {
         >
           Public Events
         </Typography>
-        {eventState.loading
-          ? "loading..."
-          : eventState.error
-          ? "ooops...something went wrong"
-          : renderCardGrids()}
+        {eventState.loading ? "loading..." : eventState.error ? eventState.error : renderCardGrids()}
       </Container>
     </div>
   );
