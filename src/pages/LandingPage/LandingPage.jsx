@@ -7,6 +7,7 @@ import { formatTitleDate } from "../../util";
 import CardGrid from "../../components/CardGrid/CardGrid";
 import { EventContext } from "../../context/EventContext";
 import { eventActionTypes } from "../../context/actionTypes";
+import axios from "axios";
 
 const { FETCH_ERROR, FETCH_SUCCESS, SET_FILTERED } = eventActionTypes;
 
@@ -43,19 +44,13 @@ const LandingPage = () => {
   useEffect(() => {
     // Just fetch on the first launch
     if (eventState.allEvents.length === 0) {
-      fetch("https://tlv-events-app.herokuapp.com/events/uk/london")
-        .then((res) => {
-          if (!res.ok) {
-            dispatch({ type: FETCH_ERROR, payload: "Error: Not able to fetch data from API" });
-            throw new Error("Something went wrong");
-          }
-          return res.json();
-        })
-        .then((events) => {
-          dispatch({ type: FETCH_SUCCESS, payload: events });
-          dispatch({ type: SET_FILTERED, payload: events });
+      axios("https://tlv-events-app.herokuapp.com/events/uk/london")
+        .then(({ data }) => {
+          dispatch({ type: FETCH_SUCCESS, payload: data });
+          dispatch({ type: SET_FILTERED, payload: data });
         })
         .catch((err) => {
+          dispatch({ type: FETCH_ERROR, payload: "Error: Not able to fetch data from API" });
           console.error(err);
         });
     }
