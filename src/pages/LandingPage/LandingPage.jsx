@@ -1,5 +1,5 @@
-import { useEffect, useContext } from "react";
-import { Typography } from "@mui/material";
+import { useEffect, useContext, useState } from "react";
+import { Button, Typography } from "@mui/material";
 import { Container } from "@mui/system";
 
 import { StickyTitle } from "./styledComponents";
@@ -11,9 +11,13 @@ import axios from "axios";
 
 const { FETCH_ERROR, FETCH_SUCCESS, SET_FILTERED } = eventActionTypes;
 
+const ITEMS_PER_PAGE = 20;
+
 const LandingPage = () => {
   const eventContext = useContext(EventContext);
   const { eventState, dispatch } = eventContext;
+
+  const [page, setPage] = useState(1);
 
   const renderCardGrids = () => {
     // Sort events by date
@@ -25,8 +29,11 @@ const LandingPage = () => {
     // elements grouped by date
     const eventMap = new Map();
 
-    sortedEvents.forEach((event) => {
-      eventMap.set(event.date, eventMap.has(event.date) ? [...eventMap.get(event.date), event] : [event]);
+    sortedEvents.forEach((event, index) => {
+      // Realize pagination
+      if (index < page * ITEMS_PER_PAGE) {
+        eventMap.set(event.date, eventMap.has(event.date) ? [...eventMap.get(event.date), event] : [event]);
+      }
     });
 
     return Array.from(eventMap).map(([key, events]) => {
@@ -62,6 +69,10 @@ const LandingPage = () => {
     });
   }, [dispatch, eventState.allEvents, eventState.cartEvents]);
 
+  const onShowMore = () => {
+    setPage((page) => page + 1);
+  };
+
   return (
     <div className="LandingPage">
       <Container>
@@ -75,6 +86,18 @@ const LandingPage = () => {
           Public Events
         </Typography>
         {eventState.loading ? "loading..." : eventState.error ? eventState.error : renderCardGrids()}
+        <Container
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            margin: "2rem 0",
+          }}
+        >
+          <Button variant="contained" onClick={onShowMore}>
+            show more
+          </Button>
+        </Container>
       </Container>
     </div>
   );
